@@ -8,7 +8,11 @@ class MyDisques extends Controller{
 		if(!RequestUtils::isAjax()){
 			$this->loadView("main/vHeader.html",array("infoUser"=>Auth::getInfoUser()));
             $user=Auth::getUser();
-            $this->loadView("main/vHeader.html",array("user"=>$user));  #VERIFICATION // LA VUE EST FAUSSE 
+			$disques=DAO::getOneToMany($user, "disques");
+			foreach($disques as $disque){
+				$this->loadview("MyDisques/disque.html",array("disques"=>$disques));// ou alors on passe les infos du disque une par une (celles dont on a besoin)
+			}
+
         }
 
 	}
@@ -23,3 +27,5 @@ class MyDisques extends Controller{
 	}
 
 }
+?>
+<h1>{{disque.getNom()}}</h1>
