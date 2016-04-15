@@ -68,6 +68,4 @@ class Accueil extends Controller {
 	public function getInfoUser(){
 		echo Auth::getInfoUser();
 	}
-	public function get()
-	    return get();
 }

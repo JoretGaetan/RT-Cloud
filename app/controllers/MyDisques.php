@@ -7,6 +7,8 @@ class MyDisques extends Controller{
 		if(!RequestUtils::isAjax()){
 			$this->loadView("main/vHeader.html",array("infoUser"=>Auth::getInfoUser()));
 		}
+		$user=Auth::getUser();
+		$this->loadView("MyDisques/index_disk.html",array("user"=>$user));
 	}
 	public function index() {
 		echo Jquery::compile();
