@@ -6,14 +6,13 @@ use micro\utils\RequestUtils;
 class MyDisques extends Controller{
 	public function initialize(){
 		if(!RequestUtils::isAjax()){
-			$this->loadView("main/vHeader.html",array("infoUser"=>Auth::getInfoUser()));
-            $user=Auth::getUser();
-			$disques=DAO::getOneToMany($user, "disques");
-			foreach($disques as $disque){
-				$this->loadview("MyDisques/disque.html",array("disques"=>$disques));// ou alors on passe les infos du disque une par une (celles dont on a besoin)
-			}
+			$this->loadView("main/vHeader.html",array("infoUser"=>Auth::getInfoUser())); }
 
-        }
+		$user=Auth::getUser();
+		$disques=DAO::getOneToMany($user, "disques");
+		foreach($disques as $disque){
+				$this->loadview("MyDisques/disque.html",array("disques"=>$disques));
+		}
 
 	}
 	public function index() {
@@ -27,5 +26,4 @@ class MyDisques extends Controller{
 	}
 
 }
-?>
-<h1>{{disque.getNom()}}</h1>
+
