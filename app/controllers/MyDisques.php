@@ -30,5 +30,23 @@ class MyDisques extends Controller{
 	ModelUtils::sizeConverter("1Ko")
 	$disque->getQuota()
 	$disque->getSize()
+*/
+/* class ModelUtils {
+   public static integer() {
+         getDisqueOccupation( config $cloud, Disque $disque)
 
-} */ 
+ }
+     public static Tarif{
+         getDisqueTarif( Disque,$disque )
+ }
+     public static integer{
+         sizeConverter( String $unit )
+ }
+     public static string{
+         arrayAsHtml( array $array, string $mainTag = "div", string $tag = "span class='label label-info'", string $sep = "&nbsp;" )
+ }
+
+ }
+*/ 
+
+
