@@ -24,5 +24,11 @@ class MyDisques extends Controller{
 			$this->loadView("main/vFooter.html");
 		}
 	}
-
 }
+
+/*class ModelUtils{
+	ModelUtils::sizeConverter("1Ko")
+	$disque->getQuota()
+	$disque->getSize()
+
+} */ 
