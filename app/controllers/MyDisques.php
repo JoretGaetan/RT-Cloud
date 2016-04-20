@@ -17,9 +17,8 @@ class MyDisques extends Controller{
 		foreach($disques as $disque){
 			$this->loadview("MyDisques/disque.html",array("disque"=>$disque));
 		}
-        ModelUtils::getDisqueOccupation(); // Il faut passe un argument dans la fonction
-        $disque->getQuota();
-        ModelUtils::sizeConverter("1Ko");
+        $occupation=$disque->getOccupation();
+        ModelUtils::sizeConverter("Mo");
         $disque->getSize();
 
 	}
