@@ -15,10 +15,14 @@ class MyDisques extends Controller{
 		$user=Auth::getUser();
 		$disques=micro\orm\DAO::getOneToMany($user, "disques");
 		foreach($disques as $disque){
-			$this->loadview("MyDisques/disque.html",array("disques"=>$disque));
+			$this->loadview("MyDisques/disque.html",array("disque"=>$disque));
 		}
-	}
+        ModelUtils::getDisqueOccupation(); // Il faut passe un argument dans la fonction
+        $disque->getQuota();
+        ModelUtils::sizeConverter("1Ko");
+        $disque->getSize();
 
+	}
 	public function finalize(){
 		if(!RequestUtils::isAjax()){
 			$this->loadView("main/vFooter.html");
@@ -26,27 +30,7 @@ class MyDisques extends Controller{
 	}
 }
 
-/*class ModelUtils{
-	ModelUtils::sizeConverter("1Ko")
-	$disque->getQuota()
-	$disque->getSize()
-*/
-/* class ModelUtils {
-   public static integer() {
-         getDisqueOccupation( config $cloud, Disque $disque)
 
- }
-     public static Tarif{
-         getDisqueTarif( Disque,$disque )
- }
-     public static integer{
-         sizeConverter( String $unit )
- }
-     public static string{
-         arrayAsHtml( array $array, string $mainTag = "div", string $tag = "span class='label label-info'", string $sep = "&nbsp;" )
- }
 
- }
-*/ 
 
 
