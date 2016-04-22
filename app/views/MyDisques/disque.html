@@ -8,7 +8,8 @@
 
 <span class="glyphicon glyphicon-hdd"></span>
 {{disque.getNom()}}
-{{disque.getSize()}}
+{{disque.getSize()}} <!-- Affiche l'espace occuper sur un disque -->
+{{disque.getQuota()}} <!-- Affiche le quota d'un disque -->
 
 
 <!--
@@ -19,15 +20,14 @@
 
     </div>
 </div> -->
-<div class="progress">
-    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="10" style="width: 10%">
-        <span>{{disque.getOccupation()}}</span>
+<div class="progress" aria-valuenow="{{disque.getOccupation()}}">
+    <div class="progress-bar progress-bar-info" aria-valuemin="0" aria-valuemax="10" style="width: 10%">
     </div>
-    <div class="progress-bar progress-bar-warning" aria-valuemin="11" aria-valuemax="50" style="width: 41%" >
-        <span>{{disque.getOccupation()}}</span>
+    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="50" style="width: 40%" >
     </div>
-    <div class="progress-bar progress-bar-danger" aria-valuemin="51" aria-valuemax="80" style="width: 29%" >
-        <span>{{disque.getOccupation()}}</span>
+    <div class="progress-bar progress-bar-warning" aria-valuemin="0" aria-valuemax="80" style="width: 30%" >
+    </div>
+    <div class="progress-bar progress-bar-danger" aria-valuemin="0" aria-valuemax="100" style="width: 20%" >
     </div>
 </div>
 

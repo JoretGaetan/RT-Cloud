@@ -18,8 +18,10 @@ class MyDisques extends Controller{
 			$this->loadview("MyDisques/disque.html",array("disque"=>$disque));
 		}
         $occupation=$disque->getOccupation();
-		ModelUtils::sizeConverter("Mo");
 		$disque->getSize();
+		$disque->getQuota();
+		
+
 
 
 	}
