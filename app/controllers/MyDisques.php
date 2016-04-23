@@ -20,8 +20,9 @@ class MyDisques extends Controller{
         $occupation=$disque->getOccupation();
 		$disque->getSize();
 		$disque->getQuota();
-		
-
+		ModelUtils::sizeConverter("Mo");
+		$taille=$disque->getOccupation();
+		DirectoryUtils::formatBytes(getOccupation,2); // Pas bon 
 
 
 	}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Disque </title>
@@ -8,28 +8,26 @@
 
 <span class="glyphicon glyphicon-hdd"></span>
 {{disque.getNom()}}
+
 {{disque.getSize()}} <!-- Affiche l'espace occuper sur un disque -->
 {{disque.getQuota()}} <!-- Affiche le quota d'un disque -->
 
 
-<!--
 <div class="progress">
-
-    <div class="progress-bar" role="progressbar" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"> */
+    <div class="progress-bar progress-bar-info progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="10" style="width:{{disque.getOccupation()}} %">
         {{disque.getOccupation()}}
-
     </div>
-</div> -->
-<div class="progress" aria-valuenow="{{disque.getOccupation()}}">
-    <div class="progress-bar progress-bar-info" aria-valuemin="0" aria-valuemax="10" style="width: 10%">
+    <div class="progress-bar progress-bar-success progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="50" style="width: {{disque.getOccupation()}} %" >
+        {{disque.getOccupation()}}
     </div>
-    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="50" style="width: 40%" >
+    <div class="progress-bar progress-bar-warning progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="80" style="width: {{disque.getOccupation()}} %" >
+        {{disque.getOccupation()}}
     </div>
-    <div class="progress-bar progress-bar-warning" aria-valuemin="0" aria-valuemax="80" style="width: 30%" >
-    </div>
-    <div class="progress-bar progress-bar-danger" aria-valuemin="0" aria-valuemax="100" style="width: 20%" >
+    <div class="progress-bar progress-bar-danger progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="100" style="width: {{disque.getOccupation()}} %" >
+        {{disque.getOccupation()}}
     </div>
 </div>
+
 
 
 <a href="Scan/:idDisque">
@@ -38,5 +36,6 @@
           Ouvrir
     </button>
 </a>
+</br>
 </body>
 </html>
