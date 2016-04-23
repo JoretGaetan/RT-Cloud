@@ -5,13 +5,21 @@
     <title>Disque </title>
 </head>
 <body>
-
+<h2>Mes Disques :</h2>
+<div class="button">
+<button type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+    <a href="Disques/frm">Créer un disque</a>
+</button>
+</div>
+<br>
+<div class="affichagedisque">
 <span class="glyphicon glyphicon-hdd"></span>
 {{disque.getNom()}}
 {{disque.getSize()}} <!-- Affiche l'espace occuper sur un disque -->
 {{disque.getQuota()}} <!-- Affiche le quota d'un disque -->
 </br>
-
+</div>
 <div class="progress" style="width: 100%;">
     <div class="progress-bar progress-bar-info progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="10" style="width:10%">
         {{disque.getOccupation()}}
