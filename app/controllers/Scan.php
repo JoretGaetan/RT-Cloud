@@ -9,6 +9,7 @@ use micro\js\Jquery;
 class Scan extends BaseController {
 
 	public function index(){
+		$user=Auth::getUser();
 
 	}
 

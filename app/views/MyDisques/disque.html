@@ -8,28 +8,24 @@
 
 <span class="glyphicon glyphicon-hdd"></span>
 {{disque.getNom()}}
-
 {{disque.getSize()}} <!-- Affiche l'espace occuper sur un disque -->
 {{disque.getQuota()}} <!-- Affiche le quota d'un disque -->
+</br>
 
-
-<div class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="10" style="width:{{disque.getOccupation()}} %">
+<div class="progress" style="width: 100%;">
+    <div class="progress-bar progress-bar-info progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="10" style="width:10%">
         {{disque.getOccupation()}}
     </div>
-    <div class="progress-bar progress-bar-success progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="50" style="width: {{disque.getOccupation()}} %" >
+    <div class="progress-bar progress-bar-success progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="50" style="width:50%" >
         {{disque.getOccupation()}}
     </div>
-    <div class="progress-bar progress-bar-warning progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="80" style="width: {{disque.getOccupation()}} %" >
+    <div class="progress-bar progress-bar-warning progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="80" style="width:80%" >
         {{disque.getOccupation()}}
     </div>
-    <div class="progress-bar progress-bar-danger progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="100" style="width: {{disque.getOccupation()}} %" >
+    <div class="progress-bar progress-bar-danger progress-bar-striped" aria-valuenow="{{disque.getOccupation()}}" aria-valuemin="0" aria-valuemax="100" style="width:100%" >
         {{disque.getOccupation()}}
     </div>
 </div>
-
-
-
 <a href="Scan/:idDisque">
     <button type="button" class="btn btn-block btn-primary">
         <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
