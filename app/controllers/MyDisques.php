@@ -14,16 +14,12 @@ class MyDisques extends Controller{
 		echo Jquery::compile();
 		$user=Auth::getUser();
 		$disques=micro\orm\DAO::getOneToMany($user, "disques");
-		foreach($disques as $disque){
-			$this->loadview("MyDisques/disque.html",array("disque"=>$disque));
-		}
-        $occupation=$disque->getOccupation();
-		$disque->getUser();
-		$disque->getSize();
-		$disque->getQuota();
-		ModelUtils::sizeConverter("Mo");
-		$taille=$disque->getOccupation();
-		DirectoryUtils::formatBytes(getOccupation,2); // Pas bon 
+		$this->loadView("MyDisques/disque.html", array("users"=>$user, "disques"=>$disques));
+		ModelUtils::sizeConverter("Ko");
+		
+
+
+
 
 
 	}
