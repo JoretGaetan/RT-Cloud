@@ -10,6 +10,7 @@ class Scan extends BaseController {
 
 	public function index(){
 		$user=Auth::getUser();
+		$disques=micro\orm\DAO::getOneToMany($user, "disques");
 
 	}
 
