@@ -16,7 +16,13 @@ class MyDisques extends Controller{
 		$disques=micro\orm\DAO::getOneToMany($user, "disques");
 		$this->loadView("MyDisques/disque.html", array("users"=>$user, "disques"=>$disques));
 		ModelUtils::sizeConverter("Ko");
-		
+		/* Methodo A revoir */ 
+		$nom=Auth::getUser();
+		$occupation=Auth::getOccupation();
+		$occupation=DirectoryUtils::formatBytes($occupation);
+		$this->loadView("MyDisques/disque.html", array("nom"=>$nom, "occup"=>$occupation));
+		echo DirectoryUtils::formatBytes($occupation);
+
 
 
 

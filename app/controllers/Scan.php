@@ -9,8 +9,7 @@ use micro\js\Jquery;
 class Scan extends BaseController {
 
 	public function index(){
-		$user=Auth::getUser();
-		$disques=micro\orm\DAO::getOneToMany($user, "disques");
+
 
 	}
 
@@ -18,18 +17,32 @@ class Scan extends BaseController {
 	 * Affiche un disque
 	 * @param int $idDisque
 	 */
-	public function show($idDisque) {
-		$diskName="Datas";
-		$this->loadView("scan/vFolder.html");
-		Jquery::executeOn("#ckSelectAll", "click","$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
-		Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
-		Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
-		Jquery::postOn("click", "#btConfirmDelete", "scan/delete","#ajaxResponse",array("params"=>"$('.toDelete:checked').serialize()"));
-		Jquery::doJqueryOn("#btFrmCreateFolder", "click", "#panelCreateFolder", "toggle");
-		Jquery::postFormOn("click", "#btCreateFolder", "Scan/createFolder", "frmCreateFolder","#ajaxResponse");
-		Jquery::execute("window.location.hash='';scan('".$diskName."')",true);
-		echo Jquery::compile();
-	}
+	public function show($idDisque)
+    {
+        $disques = micro\orm\DAO::getOne("Disque", $idDisque);
+        $user = $disques->getUtilisateur()->getLogin();
+        $diskName = "Datas";
+
+        $modifnom=$diskName->setName(); /* Modif du nom du disque */ 
+        $modifnom=$diskName->getName();
+
+        $size = $disques->getSize();
+        $occupation = $disques->getOccupation();
+        $quota = $disques->getQuota();
+        $tarif = $disques->getTarif();
+        $services = micro\orm\DAO::getOneToMany($disques, "services");
+        $this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "taille" => $size,
+            "occupation" => $occupation, "quota" => $quota, "tarif" => $tarif, "services" => $services));
+        Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
+        Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
+        Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
+        Jquery::postOn("click", "#btConfirmDelete", "scan/delete", "#ajaxResponse", array("params" => "$('.toDelete:checked').serialize()"));
+        Jquery::doJqueryOn("#btFrmCreateFolder", "click", "#panelCreateFolder", "toggle");
+        Jquery::postFormOn("click", "#btCreateFolder", "Scan/createFolder", "frmCreateFolder", "#ajaxResponse");
+        Jquery::execute("window.location.hash='';scan('" . $diskName . "')", true);
+        echo Jquery::compile();
+    }
+
 
 	public function files($dir="Datas"){
 		$cloud=$GLOBALS["config"]["cloud"];
