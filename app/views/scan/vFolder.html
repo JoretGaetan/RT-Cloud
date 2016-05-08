@@ -25,7 +25,7 @@
 					<!-- Nom du disque. -->
 					<b>Nom : </b> {{nom_disque}}
 					<!--Mettre lien pour changer le nom du disque.-->
-					<a href="Scan/show/:idDisque">
+					<a href="/app/views/scan/renommage.html">
 							<button type="button" class="btn btn-default">
 								<span class="glyphicon glyphicon-edit"></span> Modifier
 							</button>
@@ -41,24 +41,24 @@
 				<li class="list-group-item">
 					<!-- Occupation. -->
 					<h4><b>Occupation </b></h4>
-					{{taille}} ({{occupation}}%) sur {{quota}}
+					{{taille}} ({{occupationDisque}}%) sur {{quota}}
 					</br>
 					<!--Indicateur-->
 
 					<!--Info : 0/10-->
-					{% if occupation <=10 %}
+					{% if occupationDisque <=10 %}
 					<span class="label label-info">Peu occupé</span>
 
 					<!--Success :10/50-->
-					{% elseif occupation >10 and occupation <=50 %}
+					{% elseif occupationDisque >10 and occupationDisque <=50 %}
 					<span class="label label-success">RAS</span>
 
 					<!--Warning : 50/80-->
-					{% elseif occupation >50 and occupation <= 80 %}
+					{% elseif occupationDisque >50 and occupationDisque <= 80 %}
 					<span class="label label-warning">Forte occupation</span>
 
 					<!--Danger : 80/100-->
-					{% elseif occupation >80 and occupation <=100 %}
+					{% elseif occupationDisque >80 and occupationDisque <=100 %}
 					<span class="label label-danger">Proche saturation</span>
 
 					{% endif %}

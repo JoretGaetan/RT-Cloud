@@ -12,16 +12,22 @@ class MyDisques extends Controller{
 	}
 	public function index() {
 		echo Jquery::compile();
+        $cloud=$this->config->cloud; /* Accès à la config du Cloud */
 		$user=Auth::getUser();
 		$disques=micro\orm\DAO::getOneToMany($user, "disques");
-		$this->loadView("MyDisques/disque.html", array("users"=>$user, "disques"=>$disques));
-		ModelUtils::sizeConverter("Ko");
-		/* Methodo A revoir */ 
+		$disque=Disque::findfirst();
+        /* Methodo A revoir */
 		$nom=Auth::getUser();
-		$occupation=Auth::getOccupation();
-		$occupation=DirectoryUtils::formatBytes($occupation);
-		$this->loadView("MyDisques/disque.html", array("nom"=>$nom, "occup"=>$occupation));
-		echo DirectoryUtils::formatBytes($occupation);
+		$occupation=ModelUtils::getDisqueOccupation($cloud,$disque);
+        if(strlen($occupation)<=7){
+            $occupation=round($occupation/ModelUtils::sizeConverter("Ko"),2);
+            $unite="Ko";
+        }else{
+            $occupation=round($occupation/ModelUtils::sizeConverter("Mo"),2);
+            $unite="Mo";
+        }
+        $this->loadView("MyDisques/disque.html", array("nom"=>$nom, "occup"=>$occupation));
+
 
 
 

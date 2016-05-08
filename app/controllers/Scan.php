@@ -10,7 +10,6 @@ class Scan extends BaseController {
 
 	public function index(){
 
-
 	}
 
 	/**
@@ -19,21 +18,23 @@ class Scan extends BaseController {
 	 */
 	public function show($idDisque)
     {
-        $disques = micro\orm\DAO::getOne("Disque", $idDisque);
-        $user = $disques->getUtilisateur()->getLogin();
-        $diskName = "Datas";
+		$cloud=$this->config->cloud; /* Accès à la config du Cloud */
+		$user = Auth::getUser($this); /* Récupération de l'utilisateur actuellement connecte */
+		$disque = Disque::findFirst($idDisque);
+		$diskName = $disque->getNom();
+		$quota = ModelUtils::getDisqueTarif($disque);
+		$unit = $quota ->getUnite();
+		$occupationDisque = ModelUtils::getDisqueOccupation($cloud,$disque);
+		$occupationDisque = round($occupationDisque / ModelUtils::sizeConverter($unit),2);
+		$size = $disque->getSize();
+		$tarif = $disque->getTarif();
+		$services = micro\orm\DAO::getOneToMany($disque, "services");
+		$this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "unité"=> $unit , "taille" => $size,
+			"occupation" => $occupationDisque, "quota" => $quota, "tarif" => $tarif, "services" => $services , "disque" => $disque));
 
-        $modifnom=$diskName->setName(); /* Modif du nom du disque */ 
-        $modifnom=$diskName->getName();
-
-        $size = $disques->getSize();
-        $occupation = $disques->getOccupation();
-        $quota = $disques->getQuota();
-        $tarif = $disques->getTarif();
-        $services = micro\orm\DAO::getOneToMany($disques, "services");
-        $this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "taille" => $size,
-            "occupation" => $occupation, "quota" => $quota, "tarif" => $tarif, "services" => $services));
-        Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
+		$diskName="Datas";
+		$this->loadView("scan/vFolder.html");
+		Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
         Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
         Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
         Jquery::postOn("click", "#btConfirmDelete", "scan/delete", "#ajaxResponse", array("params" => "$('.toDelete:checked').serialize()"));
