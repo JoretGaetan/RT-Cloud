@@ -18,22 +18,17 @@ class Scan extends BaseController {
 	 */
 	public function show($idDisque)
     {
-		$cloud=$this->config->cloud; /* Accès à la config du Cloud */
-		$user = Auth::getUser($this); /* Récupération de l'utilisateur actuellement connecte */
-		$disque = Disque::findFirst($idDisque);
+		$disque=micro\orm\DAO::getOne("Disque",$idDisque);
+		$services = micro\orm\DAO::getManyToMany( $disque, "services");
+		$user = $disque->getUtilisateur()->getLogin(); /* Récupération de l'utilisateur actuellement connecte*/
 		$diskName = $disque->getNom();
-		$quota = ModelUtils::getDisqueTarif($disque);
-		$unit = $quota ->getUnite();
-		$occupationDisque = ModelUtils::getDisqueOccupation($cloud,$disque);
-		$occupationDisque = round($occupationDisque / ModelUtils::sizeConverter($unit),2);
-		$size = $disque->getSize();
-		$tarif = $disque->getTarif();
-		$services = micro\orm\DAO::getOneToMany($disque, "services");
-		$this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "unité"=> $unit , "taille" => $size,
-			"occupation" => $occupationDisque, "quota" => $quota, "tarif" => $tarif, "services" => $services , "disque" => $disque));
-
-		$diskName="Datas";
-		$this->loadView("scan/vFolder.html");
+		$quota = DirectoryUtils::formatBytes($disque->getQuota());
+		$size=DirectoryUtils::formatBytes($disque->getSize());
+		$occupation = $disque->getOccupation();
+		$tarif =  $disque->getTarif();
+		$this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "taille" => $size,
+			"occupation" => $occupation, "quota" => $quota, "tarif" => $tarif, "services" => $services,"disque" => $disque ));
+		
 		Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
         Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
         Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
