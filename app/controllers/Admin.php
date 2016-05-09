@@ -8,7 +8,8 @@ class Admin extends \BaseController {
 
 	}
 
-	public function  users() {
+	public function users() {
+		//$disque->getDisqueTarifs ==> prix des disques
 		$users=\micro\orm\DAO::getAll("Utilisateur");
 		$this->loadView("Administration/entete.html");
 		foreach ($users as $user) {
