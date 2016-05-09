@@ -25,7 +25,7 @@
 					<!-- Nom du disque. -->
 					<b>Nom : </b> {{nom_disque}}
 					<!--Mettre lien pour changer le nom du disque.-->
-					<a href="/app/views/scan/renommage.html">
+					<a href="Disques/frm/{{idDisque}}">
 							<button type="button" class="btn btn-default">
 								<span class="glyphicon glyphicon-edit"></span> Modifier
 							</button>
@@ -41,7 +41,9 @@
 				<li class="list-group-item">
 					<!-- Occupation. -->
 					<h4><b>Occupation </b></h4>
-					{{taille}} ({{occupationDisque}}%) sur {{quota}}
+
+
+					{{taille}} ({{occupation}}%) sur {{quota}}
 					</br>
 					<!--Indicateur-->
 
@@ -84,8 +86,8 @@
 
 					<b>Services :</b>
 					</br>
-					{% for services in disque.getServices() %}
-					<span class="label label-info">{{services.getNom()}}</span>
+					{% for service in services %}
+					<span class="label label-info">{{service.getNom()}}</span>
 					{% endfor %}
 				</li>
 
