@@ -108,6 +108,9 @@ class DirectoryUtils {
 	 * @return string
 	 */
 	public static function formatBytes($size, $precision = 2){
+		if ($size<1){
+			return $size;
+		}
 		$base = log($size, 1024);
 		$suffixes = array('o', 'Ko', 'Mo', 'Go', 'To');
 		return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
