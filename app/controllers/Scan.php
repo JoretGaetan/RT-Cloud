@@ -38,7 +38,34 @@ class Scan extends BaseController {
         Jquery::execute("window.location.hash='';scan('" . $diskName . "')", true);
         echo Jquery::compile();
     }
+	/*public function changetarif()
+	{
+		$valid_input = ['disqueId', 'userId', 'tarif'];
+		if(!empty($_POST)) {
+			foreach ($_POST as $input => $v) {
+				if (!in_array($input, $valid_input)) {
+					//TODO Error
+					return false;
+				}
+			}
 
+			$disque = DAO::getOne('disque', 'id = '. $_POST['disqueId']);
+			$disqueTarif = DAO::getOne('disquetarif', 'idDisque = '. $_POST['diskId']);
+			echo '<pre>';
+			var_dump($disk->getOccupation() / 100 * $disqueTarif->getTarif()->getQuota());
+			ModelUtils::sizeConverter();
+			$tarif = DAO::getOne('tarif', 'id = '. $_POST['tarif']);
+
+			$disqueTarif->setTarif($tarif);
+			DAO::update($disqueTarif);
+
+			if (DAO::update($disqueTarif)) {
+				header('Location: /RT-Cloud/Scan/show/' . $_POST['disqueId']);
+				return false;
+			} else
+				echo '<div class="alert alert-danger">Une erreur est survenue, veuillez rééssayer ultérieurement</div>';
+		}
+	}*/ 
 
 	public function files($dir="Datas"){
 		$cloud=$GLOBALS["config"]["cloud"];
