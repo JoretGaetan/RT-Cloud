@@ -15,8 +15,8 @@ class MyDisques extends Controller{
 	public function index() {
 		if (Auth::isAuth()==True)
 		{
-			$user = Auth::getUser();
-			$disques=micro\orm\DAO::getOneToMany($user, "disques");
+			$user = Auth::getUser(); //Dection de l'utilisateur
+			$disques=micro\orm\DAO::getOneToMany($user, "disques"); // Recuperation Paramettre Disque
 			$this->loadView("MyDisques/entete.html", array("user"=>$user));
 				foreach ($disques as $disque)
 				{

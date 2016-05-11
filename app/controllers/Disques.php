@@ -14,26 +14,26 @@ class Disques extends \_DefaultController {
 	}
 
 	public function update(){
-		// Si un ID et un nom sont passés en paramètres, il s'agit de mettre à jour un disque ***
+		// Si un ID et un nom sont passés en paramètres,on met à jour le disque **
 		if($_POST["id"] && $_POST['nom']) {
-			// On recupère le chemin ABSOLU du dossier (disque) grace à l'ancien nom du disque disque et au variable globale
+			// On recupère le chemin ABSOLU du dossier (disque) grace à l'ancien nom du disque
 			$oldfolder = DAO::getOne('Disque', $_POST['id'])->getNom();
 			$basepath = (dirname(dirname(__DIR__))."/files/".$GLOBALS['config']['cloud']['prefix'].Auth::getUser()->getLogin().'/');
 			$actualpath = $basepath.$oldfolder;
 			$newpath = $basepath.$_POST['nom'];
-			// Ensuite une exception classique pour tester si tout s'est bien passé !
+			// On vérifie le fonctionnement du chemin
 			try {
 				rename($actualpath, $newpath);
 			} catch (Exception $e) {
 				die("Erreur pour renommer le dossier");
 			}
-			// *** Sinon, il s'agit de créer un disque
+			// Sinon, on créer un disque
 		} else {
 			if ($_POST['nom']) {
 				// On recupère le chemin ABSOLU du dossier (disque) comme au dessus
 				$basepath = (dirname(dirname(__DIR__))."/files/".$GLOBALS['config']['cloud']['prefix'].Auth::getUser()->getLogin().'/');
 				$newpath = $basepath.$_POST['nom'];
-				// Ensuite une exception classique pour tester si la création a fonctionné !
+				// Exeception pour observer la création du disque
 				try {
 					mkdir($newpath);
 				} catch (Exception $e) {
@@ -41,7 +41,7 @@ class Disques extends \_DefaultController {
 				}
 			}
 		}
-		// On appelle ensuite la fonction update du DefaultController pour mettre à jour les paramètres en base de données.
+		// Update du DefaultController permet de mettre à jour les paramètres sur la BDD 
 		parent::update();
 	}
 
