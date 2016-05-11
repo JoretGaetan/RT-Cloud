@@ -70,17 +70,17 @@
 
 					<h4><b>Tarification</b></h4>
 
+					{{tarif.getQuota()}} {{tarif.getUnite()}} pour {{tarif.getPrix()}}€ avec marge de dépassement de
+					{{tarif.getMargeDepassement()}}% (Coût de dépassement {{tarif.getCoutDepassement()}}€ / {{tarif.getUnite()}})
 
-					{% if tarif.getPrix()==0 %}
-					Prix : 0€, Marge de dépassement de 2%, Coût de dépassement de 0€.
-
-					{% else %}
-					Prix : 5€, Marge de dépassement de 2%, Coût de dépassement de 0.01€.
-					{% endif %}
 					<br>
-					<a href="Disques/frm/{{idDisque}}">
+
+					<!--Modifier la Tarification !!!!-->
+
+					<a href="Scan/show/{{idDisque}}/changeTarif">
 						<button type="button" class="btn btn-default">
-							<span class="glyphicon glyphicon-edit"></span> Modifier la Tarification
+							<span class="glyphicon glyphicon-edit" id="modif"></span>
+							Modifier la tarification...
 						</button>
 					</a>
 				</li>
@@ -98,15 +98,6 @@
 				</ul>
 			</div>
 
-
-
-
-
-
-
-			<!--
-            //TODO 4.3 implémenter à partir de DisqueController/indexAction
-            -->
 		</div>
 		<div id="ajaxResponse"></div>
 		<div role="tabpanel" class="tab-pane" id="Listing">
@@ -172,7 +163,7 @@
 				<span>Aucun élément.</span>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane" id="Upload">
+		<div role="tabpanel" class="tab-pane" id="upload">
 			<form id="upload" method="post" action="scan/upload" enctype="multipart/form-data">
 				<div id="drop">
 					Déposez vos fichiers
@@ -186,13 +177,14 @@
 			</form>
 		</div>
 	</div>
+
+
+
 </div>
 <input type="hidden" name="rootFolder" id="rootFolder">
-
 <script src="assets/js/jquery-file-upload/jquery.knob.js"></script>
 <!-- jQuery File Upload Dependencies -->
 <script src="assets/js/jquery-file-upload/jquery.ui.widget.js"></script>
 <script src="assets/js/jquery-file-upload/jquery.iframe-transport.js"></script>
 <script src="assets/js/jquery-file-upload/jquery.fileupload.js"></script>
-
 <script src="assets/js/jquery-file-upload/script.js"></script>

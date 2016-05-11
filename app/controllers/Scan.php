@@ -16,56 +16,95 @@ class Scan extends BaseController {
 	 * Affiche un disque
 	 * @param int $idDisque
 	 */
-	public function show($idDisque)
-    {
-		$disque=micro\orm\DAO::getOne("Disque",$idDisque);
-		$services = micro\orm\DAO::getManyToMany( $disque, "services");
-		$user = $disque->getUtilisateur()->getLogin(); /* Récupération de l'utilisateur actuellement connecte*/
-		$diskName = $disque->getNom();
-		$quota = DirectoryUtils::formatBytes($disque->getQuota());
-		$size=DirectoryUtils::formatBytes($disque->getSize());
-		$occupation = $disque->getOccupation();
-		$tarif =  $disque->getTarif();
-		$this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $user, "nom_disque" => $diskName, "taille" => $size,
-			"occupation" => $occupation, "quota" => $quota, "tarif" => $tarif, "services" => $services,"disque" => $disque ));
-		
-		Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
-        Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
-        Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
-        Jquery::postOn("click", "#btConfirmDelete", "scan/delete", "#ajaxResponse", array("params" => "$('.toDelete:checked').serialize()"));
-        Jquery::doJqueryOn("#btFrmCreateFolder", "click", "#panelCreateFolder", "toggle");
-        Jquery::postFormOn("click", "#btCreateFolder", "Scan/createFolder", "frmCreateFolder", "#ajaxResponse");
-        Jquery::execute("window.location.hash='';scan('" . $diskName . "')", true);
-        echo Jquery::compile();
-    }
-	/*public function changetarif()
+	public function show($idDisque, $option = false)
 	{
+
+		if (Auth::isAuth()) { //Vérification de la connexion d'un utilisateur
+
+
+			$user = Auth::getUser();
+			$disque = micro\orm\DAO::getOne("disque", "id =". $idDisque ."&& idUtilisateur = ". $user->getId());
+			$services = micro\orm\DAO::getManyToMany($disque, "services");
+			$tarif = ModelUtils::getDisqueTarif($disque);
+
+			if($option) {
+				switch($option) {
+					case "changeTarif":
+						$tarifs = micro\orm\DAO::getAll("tarif");
+						$selected = $disque->getTarif();
+						$this->loadView("scan/tarifs.html", array("disque" => $disque, "user" => $user,
+							"tarifs" => $tarifs, "selected" => $selected));
+						return false;
+						break;
+					default:
+						echo "<div class='alert alert-danger'>Paramètre inconnu</div>";
+						return false;
+						break;
+				}
+				return false;
+			}
+			if(empty($disque)) {
+				$msg = new DisplayedMessage();
+				$msg->setContent("Le disque n'existe pas ou ne vous appartient pas !")
+					->setType("warning")
+					->setDismissable(true)
+					->show($this);
+				return false;
+			}
+
+			$users = $disque->getUtilisateur()->getLogin();
+			$diskName = $disque->getNom();
+			$size = DirectoryUtils::formatBytes($disque->getSize());
+			$quota = DirectoryUtils::formatBytes($disque->getQuota());
+			$occupation = $disque->getOccupation();
+
+
+			$this->loadView("scan/vFolder.html", array("idDisque" => $idDisque, "user" => $users, "nom_disque" => $diskName, "taille" => $size,
+				"occupation" => $occupation, "quota" => $quota, "tarif" => $tarif, "services" => $services));
+
+			Jquery::executeOn("#ckSelectAll", "click", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
+			Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
+			Jquery::doJqueryOn("#btDelete", "click", "#panelConfirmDelete", "show");
+			Jquery::postOn("click", "#btConfirmDelete", "scan/delete", "#ajaxResponse", array("params" => "$('.toDelete:checked').serialize()"));
+			Jquery::doJqueryOn("#btFrmCreateFolder", "click", "#panelCreateFolder", "toggle");
+			Jquery::postFormOn("click", "#btCreateFolder", "Scan/createFolder", "frmCreateFolder", "#ajaxResponse");
+			Jquery::execute("window.location.hash='';scan('" . $diskName . "')", true);
+			echo Jquery::compile();
+		}
+
+		else {
+			$msg = new DisplayedMessage();
+			$msg->setContent("Vous devez vous connecter pour avoir accès à cette ressource")
+				->setType("danger")
+				->setDismissable(false)
+				->show($this);
+			echo Auth::getInfoUser();
+		}
+	}
+
+		public function changeTarif() {
 		$valid_input = ['disqueId', 'userId', 'tarif'];
-		if(!empty($_POST)) {
-			foreach ($_POST as $input => $v) {
+		if(!empty($_GET)) {
+			foreach ($_GET as $input => $v) {
 				if (!in_array($input, $valid_input)) {
-					//TODO Error
 					return false;
 				}
 			}
+			$disque = micro\orm\DAO::getOne('disque', 'id = '. $_GET['disqueId']);
+			$disqueTarif = micro\orm\DAO::getOne('disquetarif', 'idDisque = '. $_GET['disqueId']);
 
-			$disque = DAO::getOne('disque', 'id = '. $_POST['disqueId']);
-			$disqueTarif = DAO::getOne('disquetarif', 'idDisque = '. $_POST['diskId']);
-			echo '<pre>';
-			var_dump($disk->getOccupation() / 100 * $disqueTarif->getTarif()->getQuota());
-			ModelUtils::sizeConverter();
-			$tarif = DAO::getOne('tarif', 'id = '. $_POST['tarif']);
-
-			$disqueTarif->setTarif($tarif);
-			DAO::update($disqueTarif);
-
-			if (DAO::update($disqueTarif)) {
-				header('Location: /RT-Cloud/Scan/show/' . $_POST['disqueId']);
+			$size=var_dump($disque->getSize());
+			ModelUtils::sizeConverter($size);
+			$tarif = micro\orm\DAO::getOne('tarif', 'id = '. $_GET['tarif']);
+			$i=$disqueTarif->setTarif($tarif);
+			$u=micro\orm\DAO::update($i);
+			if ($u) {
+				header('Location: /RT-Cloud/Scan/show/' . $_GET['disqueId']);
 				return false;
 			} else
 				echo '<div class="alert alert-danger">Une erreur est survenue, veuillez rééssayer ultérieurement</div>';
 		}
-	}*/ 
+		}
 
 	public function files($dir="Datas"){
 		$cloud=$GLOBALS["config"]["cloud"];

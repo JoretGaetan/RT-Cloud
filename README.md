@@ -19,4 +19,4 @@ TODO 2.1 => JORET Gaëtan => Réalisé à 85%
 TODO 2.2 => JORET Gaëtan => Réalisé à 85%
 TODO 2.3 => JORET Gaëtan => Réalisé à 85%
 TODO 3.0 => Non réalisé faute de temps
-TODO 3.1 => Non réalisé faute de temps 
+TODO 3.1 => Non réalisé faute de temps

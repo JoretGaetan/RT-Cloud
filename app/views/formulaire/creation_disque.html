@@ -8,6 +8,16 @@
             <input type="text" name="nom" id="nom" value="{{disque.getNom()}}" placeholder="Entrez le Nom" class="form-control" {{disabled}}>
             <input type="text" name="Date" value="{{disque.getCreatedAt()}}" placeholder="Entrez une Date" class="form-control" {{disabled}}>
         </div>
+
+        <p><b>Choissisez votre tarif</b></p>
+        <div>
+            <FORM>
+                <INPUT type= "radio" name="tarif 1" > Tarif 1 comprenant (200 Ko pour 0€/mois)
+                <br>
+                <INPUT type= "radio" name="tarif 2" > Tarif 2 comprenant (15 Mo pour 5€/mois)
+           </FORM>
+        </div>
+        <br>
         <div class="form-group">
             <input type="submit" value="Valider" class="btn btn-default">
             <a class="btn btn-default" href="{{config['siteUrl']}}disques">Annuler</a>
